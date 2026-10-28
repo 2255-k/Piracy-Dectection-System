@@ -1,0 +1,262 @@
+{% extends "layout.html" %}
+
+{% block title %}Scan Results - Piracy Shield{% endblock %}
+
+{% block content %}
+<div class="container results-container">
+    <!-- Header -->
+    <div class="results-header">
+        <div class="brand-logo-small">
+            <svg width="40" height="40" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="28" stroke="url(#gradient)" stroke-width="2" />
+                <path d="M30 15 L30 25 M30 35 L30 45" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round" />
+                <circle cx="30" cy="30" r="3" fill="url(#gradient)" />
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0088cc" />
+                        <stop offset="100%" style="stop-color:#00aaff" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        <h1>Scan Results</h1>
+        <p class="search-query">Query: <span class="highlight">"{{ movie_name }}"</span></p>
+    </div>
+
+    {% if movie_details %}
+    <div class="movie-details-card" style="display: flex; gap: 2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(10px);">
+        <div class="movie-poster" style="flex-shrink: 0; width: 140px; height: 210px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #1e293b;">
+            <img src="{{ movie_details.poster }}" alt="{{ movie_details.title }}" style="width: 100%; height: 100%; object-fit: cover; opacity: {{ '1' if movie_details.poster else '0' }};">
+        </div>
+        <div class="movie-info" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                <h2 style="font-size: 2.2rem; margin: 0; color: #fff; font-weight: 800; letter-spacing: -0.5px;">{{ movie_details.title }}</h2>
+                {% if movie_details.rating %}
+                <span class="rating-badge" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.9rem; border: 1px solid rgba(245, 158, 11, 0.2); display: flex; align-items: center; gap: 0.4rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    {{ movie_details.rating }}/10
+                </span>
+                {% endif %}
+            </div>
+            {% if movie_details.release_date and movie_details.release_date != 'N/A' %}
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Released: {{ movie_details.release_date }}</p>
+            {% else %}
+            <p style="margin-bottom: 1.2rem;"></p>
+            {% endif %}
+            <p style="color: #cbd5e1; line-height: 1.6; font-size: 1rem; margin: 0; max-height: 4.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                {{ movie_details.overview }}
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <!-- Summary Stats -->
+    <div class="results-summary">
+        <div class="summary-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <div class="summary-info">
+                <div class="summary-value">{{ results|length }}</div>
+                <div class="summary-label">Detections</div>
+            </div>
+        </div>
+        <div class="summary-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+            </svg>
+            <div class="summary-info">
+                <div class="summary-value">{{ (results|selectattr('score', 'gt', 70)|list|length) }}</div>
+                <div class="summary-label">High Risk</div>
+            </div>
+        </div>
+        <div class="summary-card">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <div class="summary-info">
+                <div class="summary-value">Active</div>
+                <div class="summary-label">Status</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Grid -->
+    <div class="results-grid">
+        {% for result in results %}
+        <div class="result-card">
+            <div class="card-header">
+                <div class="source-info">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="group-name">{{ result.group_name }}</span>
+                </div>
+                <div
+                    class="score-badge {% if result.score > 70 %}score-high{% elif result.score > 40 %}score-medium{% else %}score-low{% endif %}">
+                    {{ result.score }}%
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="message-content">
+                    <strong>{{ result.text }}</strong>
+                    {% if result.file_name %}
+                    <div class="file-info">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                            <polyline points="13 2 13 9 20 9"></polyline>
+                        </svg>
+                        <span>{{ result.file_name }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Detection Reasons -->
+                <div class="detection-reasons">
+                    <div class="reasons-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Detection Indicators</span>
+                    </div>
+                    <ul class="reasons-list">
+                        {% for reason in result.reasons %}
+                        <li>{{ reason }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="ml-confidence">
+                        <span class="ml-label">ML Confidence:</span>
+                        <span class="ml-value">{{ result.ml_confidence }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                {% if result.link and result.link != '#' %}
+                <a href="{{ result.link }}" target="_blank" class="action-btn view-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    View Message
+                </a>
+                {% else %}
+                <button class="action-btn disabled">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    No Link
+                </button>
+                {% endif %}
+                <button data-message-id="{{ result.id }}" data-chat-id="{{ result.chat_id }}"
+                    data-chat-username="{{ result.chat_username or '' }}" onclick="reportMessage(this)"
+                    class="action-btn report-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2">
+                        </polygon>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Report Piracy
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+        </svg>
+        <h2>No Threats Detected</h2>
+        <p>No suspicious messages found for this query. The content appears to be clean.</p>
+    </div>
+    {% endif %}
+
+    <!-- Legitimate Sources (Legal Watch) -->
+    <div class="legal-watch-section" style="margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; display: inline-block; padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 1rem; text-transform: uppercase;">Verified Legal Alternatives</div>
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Where to Watch <span>Legally</span></h2>
+            <p style="color: var(--text-muted);">Support the creators by viewing content on these verified platforms.</p>
+        </div>
+
+        <div class="legal-platforms-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            {% for platform in legal_options %}
+            <div class="platform-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 1.5rem; text-align: center; transition: all 0.3s ease;">
+                <div class="platform-icon" style="width: 60px; height: 60px; margin: 0 auto 1.2rem; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
+                    <img src="{{ platform.icon }}" alt="{{ platform.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.3rem;">{{ platform.name }}</h3>
+                <span style="font-size: 0.8rem; color: #10b981; font-weight: 700; background: rgba(16, 185, 129, 0.1); padding: 0.2rem 0.6rem; border-radius: 6px;">{{ platform.type }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Back Navigation -->
+    <a href="{{ url_for('user_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        New Scan
+    </a>
+</div>
+
+<script>
+    function reportMessage(button) {
+        const messageId = button.getAttribute('data-message-id');
+        const chatId = button.getAttribute('data-chat-id');
+        const chatUsername = button.getAttribute('data-chat-username');
+
+        button.disabled = true;
+        button.innerHTML = '<span>Reporting...</span>';
+
+        fetch("{{ url_for('report') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message_id: messageId,
+                chat_id: chatId,
+                chat_username: chatUsername || null
+            }),
+        })
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || `Server error: ${response.status}`);
+                }
+                return data;
+            })
+            .then(data => {
+                button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Reported';
+                button.classList.add('success');
+                setTimeout(() => {
+                    alert("Report Status:\n" + data.message + "\n\nTelegram API: " + data.telegram_status);
+                }, 300);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                button.disabled = false;
+                button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Report Piracy';
+                alert("Error: " + error.message);
+            });
+    }
+</script>
+{% endblock %}

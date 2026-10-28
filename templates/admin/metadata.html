@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}Scanned Metadata - Admin{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1100px;">
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Scanned Metadata</h1>
+            <p class="subtitle">Detailed analysis of all messages scanned by users.</p>
+        </div>
+        <a href="{{ url_for('export_csv') }}" class="btn-scan"
+            style="text-decoration: none; margin-top: 0; background: #28a745; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export CSV
+        </a>
+    </div>
+
+    <div class="results-grid">
+        {% for msg in messages %}
+        <div class="result-card">
+            <div class="card-header">
+                <div class="source-info">
+                    <span class="group-name">{{ msg.group_name or 'Unknown Chat' }}</span>
+                </div>
+                <div
+                    class="score-badge {% if msg.analysis.final_score > 70 %}score-high{% elif msg.analysis.final_score > 40 %}score-medium{% else %}score-low{% endif %}">
+                    {{ msg.analysis.final_score }}%
+                </div>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">{{ msg.text[:200] }}...</p>
+                <div
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8rem; color: var(--text-muted); background: rgba(0,0,0,0.1); padding: 0.75rem; border-radius: 8px;">
+                    <div><strong>File:</strong> {{ msg.file_name or 'N/A' }}</div>
+                    <div><strong>Telegram ID:</strong> {{ msg.telegram_id }}</div>
+                    <div><strong>ML Score:</strong> {{ msg.analysis.ml_score }}%</div>
+                    <div><strong>Rule Score:</strong> {{ msg.analysis.rule_score }}%</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}

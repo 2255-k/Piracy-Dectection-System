@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Piracy Shield{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .nav-bar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            padding: 0.75rem 2rem;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--secondary-color);
+        }
+
+        .user-pill {
+            background: rgba(0, 136, 204, 0.1);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+
+        .logout-btn {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .flash-messages {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .flash {
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .flash.success {
+            border-color: rgba(46, 213, 115, 0.4);
+            color: #2ed573;
+        }
+
+        .flash.danger {
+            border-color: rgba(255, 71, 87, 0.4);
+            color: #ff4757;
+        }
+
+        .flash.warning {
+            border-color: rgba(255, 165, 2, 0.4);
+            color: #ffa502;
+        }
+
+        .flash.info {
+            border-color: rgba(0, 136, 204, 0.4);
+            color: #00aaff;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        main {
+            padding-top: 80px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .auth-container {
+            max-width: 450px;
+        }
+        body {
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
+            min-height: 100vh;
+        }
+        main {
+            padding-top: 120px;
+        }
+    </style>
+</head>
+
+<body class="premium-theme">
+    {% if session.user_id %}
+    <nav class="nav-bar">
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <svg width="30" height="30" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="28" stroke="url(#nav-gradient)" stroke-width="2" />
+                <path d="M30 15 L30 25 M30 35 L30 45" stroke="url(#nav-gradient)" stroke-width="3"
+                    stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="nav-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0088cc" />
+                        <stop offset="100%" style="stop-color:#00aaff" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            Piracy Shield
+        </a>
+        <div class="nav-links">
+            {% if session.role == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Admin Panel</a>
+            <a href="{{ url_for('manage_reports') }}" class="nav-link">Manage Reports</a>
+            {% endif %}
+            <a href="{{ url_for('user_dashboard') }}" class="nav-link">Scanner</a>
+            <div class="user-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                {{ session.name }}
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Auto-hide flashes
+        setTimeout(() => {
+            document.querySelectorAll('.flash').forEach(f => {
+                f.style.opacity = '0';
+                f.style.transform = 'translateX(20px)';
+                f.style.transition = 'all 0.5s ease';
+                setTimeout(() => f.remove(), 500);
+            });
+        }, 5000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}User Management - Admin{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px;">
+    <div class="header">
+        <h1>User Management</h1>
+        <p class="subtitle">View all registered users and their roles.</p>
+    </div>
+
+    <div class="results-grid">
+        <div class="result-card" style="padding: 1rem;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <tr>
+                        <th style="padding: 1rem;">ID</th>
+                        <th style="padding: 1rem;">User / Email</th>
+                        <th style="padding: 1rem;">Name</th>
+                        <th style="padding: 1rem;">Role</th>
+                        <th style="padding: 1rem;">Status</th>
+                        <th style="padding: 1rem;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <td style="padding: 1rem;">{{ user.id }}</td>
+                        <td style="padding: 1rem;">
+                            <div style="font-weight: 500;">{{ user.username }}</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">{{ user.email }}</div>
+                        </td>
+                        <td style="padding: 1rem; color: var(--secondary-color);">{{ user.name }}</td>
+                        <td style="padding: 1rem;">
+                            <span
+                                class="score-badge {% if user.role == 'admin' %}score-high{% else %}score-low{% endif %}"
+                                style="padding: 0.2rem 0.6rem; font-size: 0.75rem;">
+                                {{ user.role|upper }}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <span
+                                class="score-badge {% if user.status == 'active' %}score-low{% else %}score-high{% endif %}"
+                                style="padding: 0.2rem 0.6rem; font-size: 0.75rem;">
+                                {{ user.status|upper }}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem;">
+                            {% if user.id != session.user_id %}
+                            <form action="{{ url_for('toggle_user', user_id=user.id) }}" method="POST"
+                                style="display: inline;">
+                                <button type="submit" class="action-btn"
+                                    style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-color); cursor: pointer; border-radius: 6px; transition: all 0.2s;">
+                                    {{ 'Block' if user.status == 'active' else 'Unblock' }}
+                                </button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}

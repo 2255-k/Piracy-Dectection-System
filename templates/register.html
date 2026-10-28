@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}Register - Piracy Shield{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <div class="brand-logo">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="12" width="48" height="40" rx="8" stroke="url(#logo-grad)" stroke-width="3" />
+            <path d="M32 24V40M24 32H40" stroke="url(#logo-grad)" stroke-width="4" stroke-linecap="round" />
+            <defs>
+                <linearGradient id="logo-grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#3b82f6" />
+                    <stop offset="1" stop-color="#60a5fa" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+    <h1>Create Account</h1>
+    <p class="subtitle">Join the elite network of content protectors</p>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-wrapper">
+                <span class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <input type="text" name="name" placeholder="John Doe" pattern="[A-Za-z\s]+" title="Please use only letters and spaces" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrapper">
+                <span class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </span>
+                <input type="email" name="email" placeholder="john@example.com" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Username</label>
+            <div class="input-wrapper">
+                <span class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                </span>
+                <input type="text" name="username" placeholder="johndoe123" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrapper">
+                <span class="input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+        </div>
+        <button type="submit" class="premium-btn">
+            Create Shield Account
+            <svg style="margin-left: 10px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+    </form>
+    
+    <div style="margin-top: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        Already have an account? <a href="{{ url_for('login') }}" style="color: var(--secondary-color); text-decoration: none; font-weight: 700;">Login here</a>
+    </div>
+</div>
+{% endblock %}

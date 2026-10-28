@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}Admin Profile - Piracy Shield{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <div class="header">
+        <h1>Admin Profile</h1>
+        <p class="subtitle">Manage your personal account credentials and settings.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-wrapper">
+                <input type="text" id="name" name="name" value="{{ admin.name }}" placeholder="Enter your full name"
+                    required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+                <input type="email" id="email" name="email" value="{{ admin.email }}" placeholder="Enter your email"
+                    required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-wrapper">
+                <input type="text" id="username" name="username" value="{{ admin.username }}"
+                    placeholder="Choose a unique username" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">New Password (leave blank to keep current)</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" name="password"
+                    placeholder="Enter new password if you want to change it">
+            </div>
+        </div>
+
+        <button type="submit" class="scan-button">
+            <span class="button-content">Update Profile</span>
+        </button>
+    </form>
+
+    <div style="margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+        <p><strong>Note:</strong> If you change your password, you will be logged out and asked to login again.</p>
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}

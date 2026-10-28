@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}Telegram API Settings - Admin{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <div class="header">
+        <h1>Telegram API Settings</h1>
+        <p class="subtitle">Manage credentials for the real-time Telegram scanner.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="api_id">API ID</label>
+            <div class="input-wrapper">
+                <input type="text" id="api_id" name="api_id" value="{{ auth.api_id if auth else '' }}"
+                    placeholder="Enter API ID (e.g. 1234567)" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="api_hash">API Hash</label>
+            <div class="input-wrapper">
+                <input type="text" id="api_hash" name="api_hash" value="{{ auth.api_hash if auth else '' }}"
+                    placeholder="Enter API Hash string" required>
+            </div>
+        </div>
+
+        <button type="submit" class="scan-button">
+            <span class="button-content">Update Credentials</span>
+        </button>
+    </form>
+
+    <div style="margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem; text-align: left;">
+        <p><strong>Note:</strong> These credentials are stored in the database and also saved to
+            <code>telegram_creds.txt</code> for the scanning service to use. The <code>telegram_session.session</code>
+            file must still exist for the scanner to connect.
+        </p>
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}

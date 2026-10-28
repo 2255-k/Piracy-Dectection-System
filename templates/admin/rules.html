@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}Rule Engine - Admin{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px;">
+    <div class="header">
+        <h1>Admin Custom Rule Engine</h1>
+        <p class="subtitle">Configure keywords and weights for piracy detection.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+        <form method="POST" action="{{ url_for('manage_rules') }}" class="search-box"
+            style="display: flex; gap: 1rem; align-items: flex-end;">
+            <div style="flex: 2;">
+                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Pattern / Keyword</label>
+                <input type="text" name="pattern" placeholder="e.g. camrip" required style="width: 100%;">
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Weight (0-100)</label>
+                <input type="number" name="weight" value="10" min="1" max="100" style="width: 100%;">
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">Category</label>
+                <select name="category"
+                    style="width: 100%; border: 1px solid rgba(255,255,255,0.2); background: #1a1a1a; color: white; padding: 0.75rem; border-radius: 8px;">
+                    <option value="keyword">Keyword</option>
+                    <option value="language">Language</option>
+                    <option value="link">Link Type</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-scan" style="margin-top: 0;">Add Rule</button>
+        </form>
+    </div>
+
+    <div class="results-grid" style="grid-template-columns: 1fr;">
+        {% for rule in rules %}
+        <div class="result-card"
+            style="padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <span class="highlight" style="font-weight: bold; font-size: 1.1rem;">{{ rule.pattern }}</span>
+                <span style="margin-left: 1rem; font-size: 0.9rem; color: var(--text-muted);">Weight: {{ rule.weight }}
+                    | Category: {{ rule.category }}</span>
+            </div>
+            <form action="{{ url_for('delete_rule', rule_id=rule.id) }}" method="POST">
+                <button type="submit"
+                    style="background: rgba(255,0,0,0.1); color: #ff4d4d; border: 1px solid rgba(255,0,0,0.2); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

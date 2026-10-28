@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piracy Shield | AI-Powered Content Protection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="mesh"></div>
+    <div class="floating-element el-1"></div>
+    <div class="floating-element el-2"></div>
+
+    <nav>
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="12" width="48" height="40" rx="8" stroke="url(#nav-grad)" stroke-width="4" />
+                <path d="M32 24V40M24 32H40" stroke="url(#nav-grad)" stroke-width="4" stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="nav-grad" x1="0" y1="0" x2="64" y2="64">
+                        <stop stop-color="#fff" />
+                        <stop offset="1" stop-color="#3b82f6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            Piracy Shield
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="{{ url_for('login') }}" class="btn-login">Log In</a>
+            <a href="{{ url_for('register') }}" class="btn-signup">Get Started</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="badge">SECURED BY AI & TELEGRAM APIs</div>
+            <div class="hero-image-container">
+                 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-image">
+                    <path d="M100 20C60 20 30 50 30 90C30 140 100 180 100 180C100 180 170 140 170 90C170 50 140 20 100 20Z" fill="url(#hero-grad)" fill-opacity="0.1" stroke="url(#hero-grad)" stroke-width="4"/>
+                    <path d="M100 50V130M70 90H130" stroke="url(#hero-grad)" stroke-width="8" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="hero-grad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#3b82f6" />
+                            <stop offset="1" stop-color="#60a5fa" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1>Protective <span>Piracy Shield</span></h1>
+            <p>Advanced real-time detection and blocking of copyrighted content across Telegram networks using state-of-the-art machine learning models.</p>
+
+            <div class="hero-btns">
+                <a href="{{ url_for('register') }}" class="btn-primary">Start Protecting Now</a>
+                <a href="{{ url_for('login') }}" class="btn-secondary">Check Dashboard</a>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="zap"></i></div>
+                <h3>Neural Detection</h3>
+                <p>Deep learning models trained on millions of metadata samples to identify piracy patterns with 99.2% accuracy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="activity"></i></div>
+                <h3>Live Monitoring</h3>
+                <p>Direct integration with Telegram's MTProto API for instantaneous surveillance across thousands of global channels.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i data-lucide="shield"></i></div>
+                <h3>Admin Command</h3>
+                <p>Full control over dynamic rules, user access, and detailed analytical reports through a sleek interface.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="padding: 50px 10%; text-align: center; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05);">
+        <p>&copy; 2026 Piracy Shield AI. Developed for modern intellectual property protection.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(2, 6, 23, 0.6)';
+                nav.style.backdropFilter = 'blur(20px)';
+                nav.style.padding = '1.2rem 10%';
+                nav.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            } else {
+                nav.style.background = 'transparent';
+                nav.style.backdropFilter = 'none';
+                nav.style.padding = '2.5rem 10%';
+                nav.style.borderBottom = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

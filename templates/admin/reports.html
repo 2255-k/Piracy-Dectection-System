@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}Manage Reports - Piracy Shield{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1000px;">
+    <div class="header">
+        <h1>Piracy Reports</h1>
+        <p class="subtitle">Review and manage all reported piracy content from users.</p>
+    </div>
+
+    <div class="results-grid" id="reports-list">
+        {% if reports %}
+        {% for report in reports %}
+        <div class="result-card">
+            <div class="card-header">
+                <div class="source-info">
+                    <strong>{{ report.message.group_name or 'Unknown Chat' }}</strong>
+                </div>
+                <div class="score-badge score-high">
+                    REPORTED
+                </div>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 0.9rem;"><strong>Message Content:</strong> {{ report.message.text[:150] }}...</p>
+                <div
+                    style="margin-top: 1rem; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.8rem;">
+                    <div><strong>Reported By:</strong> {{ report.user.name }} (@{{ report.user.username }})</div>
+                    <div><strong>Time:</strong> {{ report.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+                    <div><strong>API Status:</strong> <span style="color: var(--secondary-color);">{{
+                            report.telegram_api_status }}</span></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <h2>No reports to display</h2>
+            <p>Once users start reporting suspicious content, they will appear here for your review.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Dashboard
+    </a>
+</div>
+{% endblock %}

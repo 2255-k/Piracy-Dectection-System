@@ -1,0 +1,51 @@
+[
+    {
+        "message_id": "55164",
+        "chat_id": "1027182557",
+        "timestamp": "nt.times_result(user=1.8125, system=1.265625, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: ReportRequest.__init__() got an unexpected keyword argument 'reason'"
+    },
+    {
+        "message_id": "5794",
+        "chat_id": "-1001923416377",
+        "timestamp": "nt.times_result(user=1.84375, system=1.296875, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: ReportRequest.__init__() got an unexpected keyword argument 'reason'"
+    },
+    {
+        "message_id": "556238",
+        "chat_id": "-1002230395102",
+        "timestamp": "nt.times_result(user=2.21875, system=1.34375, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: ReportRequest.__init__() got an unexpected keyword argument 'reason'"
+    },
+    {
+        "message_id": "55164",
+        "chat_id": "1027182557",
+        "timestamp": "nt.times_result(user=2.296875, system=1.21875, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: An invalid Peer was used. Make sure to pass the right peer type and that the value is valid (for instance, bots cannot start conversations) (caused by ReportRequest)"
+    },
+    {
+        "message_id": "5794",
+        "chat_id": "-1001923416377",
+        "timestamp": "nt.times_result(user=1.640625, system=1.140625, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: Reported successfully to Telegram (with default option)"
+    },
+    {
+        "message_id": "5794",
+        "chat_id": "-1001923416377",
+        "timestamp": "nt.times_result(user=1.765625, system=0.875, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: Reported successfully to Telegram (with default option)"
+    },
+    {
+        "message_id": "5794",
+        "chat_id": "-1001923416377",
+        "timestamp": "nt.times_result(user=3.5, system=2.078125, children_user=0.0, children_system=0.0, elapsed=0.0)",
+        "status": "reported",
+        "telegram_api_status": "Telegram API: Reported successfully to Telegram (with default option)"
+    }
+]

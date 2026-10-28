@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "group_name": "Family Chat",
+        "text": "Check out this new movie! It's awesome.",
+        "caption": "",
+        "file_name": "vacation_photos.zip",
+        "file_size": "15MB"
+    },
+    {
+        "id": 2,
+        "group_name": "Movie Leaks 2024",
+        "text": "Download Avengers Endgame full movie HD",
+        "caption": "Avengers.Endgame.2019.1080p.WEBRip.x264.mkv",
+        "file_name": "Avengers.Endgame.2019.1080p.WEBRip.x264.mkv",
+        "file_size": "2.5GB"
+    },
+    {
+        "id": 3,
+        "group_name": "College Project Group",
+        "text": "Here is the project report you asked for.",
+        "caption": "Final_Report.pdf",
+        "file_name": "Final_Report.pdf",
+        "file_size": "2MB"
+    },
+    {
+        "id": 4,
+        "group_name": "Cinema Updates",
+        "text": "Spider-Man No Way Home CAMRip leaked download now",
+        "caption": "SpiderMan_NWH_CAM.mp4",
+        "file_name": "SpiderMan_NWH_CAM.mp4",
+        "file_size": "800MB"
+    },
+    {
+        "id": 5,
+        "group_name": "Tech News",
+        "text": "Join our channel for more updates.",
+        "caption": "",
+        "file_name": "",
+        "file_size": ""
+    },
+    {
+        "id": 6,
+        "group_name": "Hollywood Blockbusters",
+        "text": "Free download latest movies 2024",
+        "caption": "Dune.Part.Two.2024.HDRip.avi",
+        "file_name": "Dune.Part.Two.2024.HDRip.avi",
+        "file_size": "1.4GB"
+    },
+    {
+        "id": 7,
+        "group_name": "Office Work",
+        "text": "Meeting minutes attached.",
+        "caption": "minutes.docx",
+        "file_name": "minutes.docx",
+        "file_size": "15KB"
+    },
+    {
+        "id": 8,
+        "group_name": "Tamil Rockers Official",
+        "text": "Watch Leo full movie online free",
+        "caption": "Leo_2023_Tamil_1080p.mkv",
+        "file_name": "Leo_2023_Tamil_1080p.mkv",
+        "file_size": "3GB"
+    }
+]
